@@ -7,9 +7,14 @@ addButton = sg.Button("Agregar")
 listBox = sg.Listbox(values = functions.ObtenerNotas(), key = 'notas',
                        enable_events=True, size=[45, 10])
 editButton = sg.Button("Editar")
+completeButton = sg.Button("Completar")
+salirBoton = sg.Button("Salir")
 
 window = sg.Window("App de Notas",
-                    layout=[[label], [inputBox, addButton],[listBox, editButton]],
+                    layout=[[label],
+                            [inputBox, addButton],
+                            [listBox, editButton, completeButton],
+                            [salirBoton]],
                     font=('Helvetica', 20))
 
 while True:
@@ -35,6 +40,15 @@ while True:
             window['notas'].update(values=notas)
         case 'notas':
             window['nota'].update(value=values['notas'][0])
+        case 'Completar':
+            notaCompleta = values['notas'][0]
+            notas = functions.ObtenerNotas()
+            notas.remove(notaCompleta)
+            functions.EscribirNotas(notas)
+            window['notas'].update(values=notas)
+            window['nota'].update(value='')
+        case 'Salir':
+            break
         case sg.WIN_CLOSED:
             break
 
